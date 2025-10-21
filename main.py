@@ -3,7 +3,6 @@ from cnf_converter import CNFConverter
 from cyk_algorithm import CYKAlgorithm
 
 def print_header():
-    """Imprime el encabezado del programa"""
     print("\n" + "=" * 80)
     print(" " * 20 + "ALGORITMO CYK - ANÁLISIS SINTÁCTICO")
     print(" " * 15 + "Forma Normal de Chomsky (CNF)")
@@ -11,7 +10,6 @@ def print_header():
     print("=" * 80)
 
 def print_result(belongs, elapsed_time):
-    """Imprime el resultado del análisis"""
     print("\n" + "=" * 80)
     print("RESULTADO DEL ANÁLISIS")
     print("=" * 80)
@@ -27,7 +25,6 @@ def print_result(belongs, elapsed_time):
     print("=" * 80)
 
 def main():
-    """Función principal del programa"""
     print_header()
     
     # Paso 1: Leer y parsear la gramática
@@ -82,12 +79,10 @@ def main():
         
         # Si pertenece, construir y mostrar el árbol de análisis
         if belongs:
-            print("\n🌳 Construyendo árbol de análisis sintáctico (Parse Tree)...")
             tree = cyk.build_parse_tree_fixed(words)
             
             if tree:
-                print("\n" + "=" * 80)
-                print("ÁRBOL DE ANÁLISIS SINTÁCTICO (PARSE TREE)")
+                print("ÁRBOL DE ANÁLISIS SINTÁCTICO")
                 print("=" * 80)
                 print()
                 # Convertir a NLTK Tree y mostrar en formato ASCII
@@ -98,7 +93,5 @@ def main():
             else:
                 print("⚠️  No se pudo construir el árbol de análisis.")
         
-        print("\n" + "-" * 80 + "\n")
-
 if __name__ == "__main__":
     main()

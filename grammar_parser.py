@@ -12,7 +12,6 @@ class GrammarParser:
         self.start_symbol = None
         
     def parse(self):
-        """Lee y parsea el archivo de gramática"""
         with open(self.filename, 'r', encoding='utf-8') as file:
             for line in file:
                 line = line.strip()
@@ -32,7 +31,6 @@ class GrammarParser:
         return self.productions, self.terminals, self.non_terminals, self.start_symbol
     
     def _parse_production(self, line):
-        """Parsea una línea de producción"""
         parts = line.split('->')
         if len(parts) != 2:
             return
@@ -69,7 +67,6 @@ class GrammarParser:
             self.productions[left].append(symbols)
     
     def display_grammar(self):
-        """Muestra la gramática parseada"""
         print("=" * 60)
         print("GRAMÁTICA ORIGINAL (CFG)")
         print("=" * 60)

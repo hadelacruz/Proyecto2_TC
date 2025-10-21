@@ -12,7 +12,6 @@ class CNFConverter:
         self.new_var_counter = 0
         
     def convert(self):
-        """Convierte la gramática a CNF"""
         print("\n🔄 Iniciando conversión a Forma Normal de Chomsky (CNF)...\n")
         
         # Paso 1: Eliminar producciones epsilon (si hay)
@@ -31,12 +30,10 @@ class CNFConverter:
         return self.productions, self.terminals, self.non_terminals, self.start_symbol
     
     def _eliminate_epsilon(self):
-        """Elimina producciones epsilon (ε)"""
         # En esta gramática no hay producciones epsilon
         pass
     
     def _eliminate_unit_productions(self):
-        """Elimina producciones unitarias (A -> B)"""
         print("📋 Paso 1: Eliminando producciones unitarias...")
         
         changed = True
@@ -66,7 +63,6 @@ class CNFConverter:
         print("   ✓ Producciones unitarias eliminadas")
     
     def _replace_terminals(self):
-        """Reemplaza terminales en producciones mixtas"""
         print("📋 Paso 2: Reemplazando terminales en producciones mixtas...")
         
         terminal_vars = {}  # Mapeo de terminal -> nueva variable
@@ -101,7 +97,6 @@ class CNFConverter:
         print("   ✓ Terminales reemplazados")
     
     def _break_long_productions(self):
-        """Rompe producciones con más de 2 no-terminales"""
         print("📋 Paso 3: Rompiendo producciones largas...")
         
         changed = True
@@ -135,7 +130,6 @@ class CNFConverter:
         print("   ✓ Producciones largas convertidas")
     
     def _new_variable(self):
-        """Genera una nueva variable única"""
         while True:
             new_var = f"X{self.new_var_counter}"
             self.new_var_counter += 1
@@ -143,7 +137,6 @@ class CNFConverter:
                 return new_var
     
     def display_cnf(self):
-        """Muestra la gramática en CNF"""
         print("=" * 60)
         print("GRAMÁTICA EN FORMA NORMAL DE CHOMSKY (CNF)")
         print("=" * 60)

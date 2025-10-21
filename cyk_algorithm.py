@@ -16,10 +16,6 @@ class CYKAlgorithm:
         self.backtrack = None
         
     def parse(self, sentence):
-        """
-        Aplica el algoritmo CYK a una frase
-        Retorna: (pertenece, tiempo, tabla, backtrack)
-        """
         print(f"\n🔍 Analizando: '{sentence}'")
         
         start_time = time.time()
@@ -140,21 +136,6 @@ class CYKAlgorithm:
         print("=" * 80)
     
     def print_parse_tree(self, tree, words, indent=0):
-        """
-        Imprime el árbol de análisis en formato legible y jerárquico
-        
-        Formato:
-        (S
-          (NP she)
-          (VP
-            (V eats)
-            (NP
-              (Det a)
-              (N cake)
-            )
-          )
-        )
-        """
         if tree is None:
             return ""
         
@@ -177,12 +158,6 @@ class CYKAlgorithm:
         return result
     
     def print_parse_tree_ascii(self, tree):
-        """
-        Imprime el árbol en formato ASCII usando NLTK Tree
-        
-        NLTK proporciona una representación estándar de árboles sintácticos
-        muy usada en Procesamiento de Lenguaje Natural (NLP).
-        """
         if tree is None:
             return ""
         
@@ -194,15 +169,6 @@ class CYKAlgorithm:
         return nltk_tree.pretty_print(unicodelines=True, nodedist=3)
     
     def build_nltk_tree(self, tree):
-        """
-        Convierte el árbol interno a un objeto Tree de NLTK
-        
-        Args:
-            tree: Árbol interno construido por build_parse_tree_fixed
-            
-        Returns:
-            nltk.tree.Tree: Objeto Tree de NLTK para visualización
-        """
         if tree is None:
             return None
         
@@ -227,18 +193,6 @@ class CYKAlgorithm:
         return self._build_tree_recursive(self.start_symbol, 0, n - 1, words)
     
     def _build_tree_recursive(self, symbol, start_pos, end_pos, words):
-        """
-        Construye recursivamente el árbol de análisis
-        
-        Args:
-            symbol: No-terminal actual
-            start_pos: Posición inicial en words
-            end_pos: Posición final en words (índice en tabla)
-            words: Lista de palabras
-        
-        Returns:
-            Diccionario con la estructura del árbol
-        """
         # Validar índices
         if start_pos < 0 or end_pos >= len(words):
             return None
@@ -259,7 +213,6 @@ class CYKAlgorithm:
             }
         else:
             # Caso recursivo: nodo interno
-            # info = ('split', B, C, pos_i_B, len_B, pos_i_C, len_C)
             _, B, C, pos_i_B, len_B, pos_i_C, len_C = info
             
             # Construir subárbol izquierdo (B)
