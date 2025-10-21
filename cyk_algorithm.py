@@ -68,7 +68,8 @@ class CYKAlgorithm:
                                 if B in left_set and C in right_set:
                                     self.table[i][j].add(nt)
                                     # Guardar información para backtracking
-                                    self.backtrack[i][j][nt] = ('split', B, C, i, k, j)
+                                    # (tipo, B, C, posición_inicio_B, longitud_B, posición_inicio_C, longitud_C)
+                                    self.backtrack[i][j][nt] = ('split', B, C, i, k, i + k + 1, j - k - 1)
         
         end_time = time.time()
         elapsed_time = end_time - start_time
@@ -138,20 +139,39 @@ class CYKAlgorithm:
         print("=" * 80)
     
     def print_parse_tree(self, tree, words, indent=0):
-        """Imprime el árbol de análisis en formato legible"""
+        """
+        Imprime el árbol de análisis en formato legible y jerárquico
+        
+        Formato:
+        (S
+          (NP she)
+          (VP
+            (V eats)
+            (NP
+              (Det a)
+              (N cake)
+            )
+          )
+        )
+        """
         if tree is None:
             return ""
         
-        result = "  " * indent
+        prefix = "  " * indent
         
-        if 'terminal' in tree:
-            result += f"({tree['symbol']} {tree['terminal']})\n"
-        else:
-            result += f"({tree['symbol']}\n"
-            for child in tree['children']:
-                if child:
-                    result += self.print_parse_tree(child, words, indent + 1)
-            result += "  " * indent + ")\n"
+        # Si es una hoja (tiene palabra)
+        if 'word' in tree:
+            return f"{prefix}({tree['symbol']} {tree['word']})\n"
+        
+        # Si es un nodo interno (tiene hijos)
+        result = f"{prefix}({tree['symbol']}\n"
+        
+        # Imprimir recursivamente cada hijo
+        for child in tree['children']:
+            if child is not None:
+                result += self.print_parse_tree(child, words, indent + 1)
+        
+        result += f"{prefix})\n"
         
         return result
     
@@ -161,44 +181,51 @@ class CYKAlgorithm:
         if self.start_symbol not in self.table[0][n - 1]:
             return None
         
-        return self._build_tree_fixed(self.start_symbol, 0, n - 1, words)
+        return self._build_tree_recursive(self.start_symbol, 0, n - 1, words)
     
-    def _build_tree_fixed(self, symbol, i, j, words):
-        """Construye recursivamente el árbol de análisis (versión corregida)"""
-        if i > j or i < 0 or j >= len(words):
-            return None
-            
-        if symbol not in self.backtrack[i][j]:
+    def _build_tree_recursive(self, symbol, start_pos, end_pos, words):
+        """
+        Construye recursivamente el árbol de análisis
+        
+        Args:
+            symbol: No-terminal actual
+            start_pos: Posición inicial en words
+            end_pos: Posición final en words (índice en tabla)
+            words: Lista de palabras
+        
+        Returns:
+            Diccionario con la estructura del árbol
+        """
+        # Validar índices
+        if start_pos < 0 or end_pos >= len(words):
             return None
         
-        info = self.backtrack[i][j][symbol]
+        # Verificar que el símbolo esté en la tabla en esta posición
+        if symbol not in self.backtrack[start_pos][end_pos]:
+            return None
+        
+        info = self.backtrack[start_pos][end_pos][symbol]
         
         if info[0] == 'terminal':
-            # Nodo hoja (terminal)
-            return {'symbol': symbol, 'terminal': info[1], 'children': []}
+            # Caso base: nodo hoja (palabra real)
+            word = info[1]
+            return {
+                'symbol': symbol,
+                'word': word,
+                'children': []
+            }
         else:
-            # Nodo interno (producción A -> BC)
-            _, B, C, pos_i, k, pos_j = info
+            # Caso recursivo: nodo interno
+            # info = ('split', B, C, pos_i_B, len_B, pos_i_C, len_C)
+            _, B, C, pos_i_B, len_B, pos_i_C, len_C = info
             
-            # Calcular índices correctos para los hijos
-            left_end = k
-            right_start = pos_i + k + 1
-            right_end = pos_j - k - 1
+            # Construir subárbol izquierdo (B)
+            left_child = self._build_tree_recursive(B, pos_i_B, len_B, words)
             
-            # Validar índices
-            if left_end < 0 or right_end < 0 or right_start >= len(words):
-                return {'symbol': symbol, 'children': []}
-            
-            left_child = self._build_tree_fixed(B, pos_i, left_end, words)
-            right_child = self._build_tree_fixed(C, right_start, right_end, words)
-            
-            children = []
-            if left_child:
-                children.append(left_child)
-            if right_child:
-                children.append(right_child)
+            # Construir subárbol derecho (C)
+            right_child = self._build_tree_recursive(C, pos_i_C, len_C, words)
             
             return {
                 'symbol': symbol,
-                'children': children
+                'children': [left_child, right_child]
             }
