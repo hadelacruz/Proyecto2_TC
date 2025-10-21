@@ -37,7 +37,7 @@ Det → a | the
 
 #### Requisitos
 - Python 3.6 o superior
-- No requiere bibliotecas externas
+- NLTK (Natural Language Toolkit): `pip install nltk`
 
 #### Ejecución
 ```bash
@@ -98,5 +98,5 @@ El programa muestra:
 3. **Tabla de programación dinámica** (CYK)
 4. **Resultado**: SÍ o NO
 5. **Tiempo de ejecución**
-6. **Árbol de análisis sintáctico** (si aplica)
+6. **Árbol de análisis sintáctico** en formato ASCII usando NLTK Tree (si aplica)
 

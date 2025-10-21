@@ -64,7 +64,7 @@ def main():
         sentence = input("📝 Ingrese una frase: ").strip()
         
         if sentence.lower() in ['salir', 'exit', 'quit', 'q']:
-            print("\n👋 ¡Hasta luego!")
+            print("\n¡Hasta luego!")
             break
         
         if not sentence:
@@ -89,8 +89,11 @@ def main():
                 print("\n" + "=" * 80)
                 print("ÁRBOL DE ANÁLISIS SINTÁCTICO (PARSE TREE)")
                 print("=" * 80)
-                tree_str = cyk.print_parse_tree(tree, words)
-                print(tree_str)
+                print()
+                # Convertir a NLTK Tree y mostrar en formato ASCII
+                nltk_tree = cyk.build_nltk_tree(tree)
+                if nltk_tree:
+                    nltk_tree.pretty_print(unicodelines=True, nodedist=2)
                 print("=" * 80)
             else:
                 print("⚠️  No se pudo construir el árbol de análisis.")

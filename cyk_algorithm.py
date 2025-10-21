@@ -4,6 +4,7 @@ Usa programación dinámica para determinar si una frase pertenece al lenguaje
 """
 
 import time
+from nltk.tree import Tree
 
 class CYKAlgorithm:
     def __init__(self, productions, terminals, non_terminals, start_symbol):
@@ -174,6 +175,48 @@ class CYKAlgorithm:
         result += f"{prefix})\n"
         
         return result
+    
+    def print_parse_tree_ascii(self, tree):
+        """
+        Imprime el árbol en formato ASCII usando NLTK Tree
+        
+        NLTK proporciona una representación estándar de árboles sintácticos
+        muy usada en Procesamiento de Lenguaje Natural (NLP).
+        """
+        if tree is None:
+            return ""
+        
+        nltk_tree = self.build_nltk_tree(tree)
+        if nltk_tree is None:
+            return ""
+        
+        # Usar la representación de NLTK
+        return nltk_tree.pretty_print(unicodelines=True, nodedist=3)
+    
+    def build_nltk_tree(self, tree):
+        """
+        Convierte el árbol interno a un objeto Tree de NLTK
+        
+        Args:
+            tree: Árbol interno construido por build_parse_tree_fixed
+            
+        Returns:
+            nltk.tree.Tree: Objeto Tree de NLTK para visualización
+        """
+        if tree is None:
+            return None
+        
+        symbol = tree['symbol']
+        
+        if 'word' in tree:
+            # Nodo hoja - terminal
+            return Tree(symbol, [tree['word']])
+        else:
+            # Nodo interno - no terminal
+            children = [c for c in tree['children'] if c is not None]
+            nltk_children = [self.build_nltk_tree(child) for child in children]
+            return Tree(symbol, nltk_children)
+    
     
     def build_parse_tree_fixed(self, words):
         """Construye el árbol de análisis sintáctico (versión corregida)"""
