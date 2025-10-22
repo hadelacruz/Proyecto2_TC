@@ -15,20 +15,20 @@ def print_result(belongs, elapsed_time):
     print("=" * 80)
     
     if belongs:
-        print("✅ Respuesta: SÍ")
+        print("Respuesta: SÍ")
         print("   La frase PERTENECE al lenguaje generado por la gramática")
     else:
-        print("❌ Respuesta: NO")
+        print("Respuesta: NO")
         print("   La frase NO PERTENECE al lenguaje generado por la gramática")
     
-    print(f"\n⏱️  Tiempo de ejecución: {elapsed_time:.6f} segundos")
+    print(f"\nTiempo de ejecución: {elapsed_time:.6f} segundos")
     print("=" * 80)
 
 def main():
     print_header()
     
     # Paso 1: Leer y parsear la gramática
-    print("\n📖 Paso 1: Leyendo gramática desde archivo...")
+    print("\nPaso 1: Leyendo gramática desde archivo...")
     grammar_file = "grammar.txt"
     
     try:
@@ -36,14 +36,14 @@ def main():
         productions, terminals, non_terminals, start_symbol = parser.parse()
         parser.display_grammar()
     except FileNotFoundError:
-        print(f"❌ Error: No se encontró el archivo '{grammar_file}'")
+        print(f"Error: No se encontró el archivo '{grammar_file}'")
         return
     except Exception as e:
-        print(f"❌ Error al parsear la gramática: {e}")
+        print(f"Error al parsear la gramática: {e}")
         return
     
     # Paso 2: Convertir a CNF
-    print("\n🔄 Paso 2: Convirtiendo gramática a Forma Normal de Chomsky...")
+    print("\nPaso 2: Convirtiendo gramática a Forma Normal de Chomsky...")
     converter = CNFConverter(productions, terminals, non_terminals, start_symbol)
     cnf_productions, cnf_terminals, cnf_non_terminals, cnf_start = converter.convert()
     converter.display_cnf()
@@ -58,14 +58,14 @@ def main():
     cyk = CYKAlgorithm(cnf_productions, cnf_terminals, cnf_non_terminals, cnf_start)
     
     while True:
-        sentence = input("📝 Ingrese una frase: ").strip()
+        sentence = input("Ingrese una frase: ").strip()
         
         if sentence.lower() in ['salir', 'exit', 'quit', 'q']:
             print("\n¡Hasta luego!")
             break
         
         if not sentence:
-            print("⚠️  Por favor ingrese una frase válida.\n")
+            print("Por favor ingrese una frase válida.\n")
             continue
         
         # Aplicar algoritmo CYK
@@ -91,7 +91,7 @@ def main():
                     nltk_tree.pretty_print(unicodelines=True, nodedist=2)
                 print("=" * 80)
             else:
-                print("⚠️  No se pudo construir el árbol de análisis.")
+                print("No se pudo construir el árbol de análisis.")
         
 if __name__ == "__main__":
     main()

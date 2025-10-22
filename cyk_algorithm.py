@@ -16,7 +16,7 @@ class CYKAlgorithm:
         self.backtrack = None
         
     def parse(self, sentence):
-        print(f"\n🔍 Analizando: '{sentence}'")
+        print(f"\nAnalizando: '{sentence}'")
         
         start_time = time.time()
         
@@ -36,7 +36,7 @@ class CYKAlgorithm:
         self.backtrack = [[{} for _ in range(n)] for _ in range(n)]
         
         # Paso 1: Llenar la diagonal (subcadenas de longitud 1)
-        print("\n   📊 Llenando tabla CYK (programación dinámica)...")
+        print("\n Llenando tabla CYK (programación dinámica)...")
         for i in range(n):
             word = words[i]
             # Buscar producciones que deriven este terminal

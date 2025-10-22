@@ -12,7 +12,7 @@ class CNFConverter:
         self.new_var_counter = 0
         
     def convert(self):
-        print("\n🔄 Iniciando conversión a Forma Normal de Chomsky (CNF)...\n")
+        print("\nIniciando conversión a Forma Normal de Chomsky (CNF)...\n")
         
         # Paso 1: Eliminar producciones epsilon (si hay)
         self._eliminate_epsilon()
@@ -26,7 +26,7 @@ class CNFConverter:
         # Paso 4: Romper producciones largas
         self._break_long_productions()
         
-        print("✅ Conversión a CNF completada\n")
+        print("Conversión a CNF completada\n")
         return self.productions, self.terminals, self.non_terminals, self.start_symbol
     
     def _eliminate_epsilon(self):
@@ -34,7 +34,7 @@ class CNFConverter:
         pass
     
     def _eliminate_unit_productions(self):
-        print("📋 Paso 1: Eliminando producciones unitarias...")
+        print("Paso 1: Eliminando producciones unitarias...")
         
         changed = True
         while changed:
@@ -63,7 +63,7 @@ class CNFConverter:
         print("   ✓ Producciones unitarias eliminadas")
     
     def _replace_terminals(self):
-        print("📋 Paso 2: Reemplazando terminales en producciones mixtas...")
+        print("Paso 2: Reemplazando terminales en producciones mixtas...")
         
         terminal_vars = {}  # Mapeo de terminal -> nueva variable
         
@@ -97,7 +97,7 @@ class CNFConverter:
         print("   ✓ Terminales reemplazados")
     
     def _break_long_productions(self):
-        print("📋 Paso 3: Rompiendo producciones largas...")
+        print("Paso 3: Rompiendo producciones largas...")
         
         changed = True
         while changed:

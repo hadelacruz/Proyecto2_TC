@@ -61,7 +61,6 @@ python main.py
 3. `she quickly eats cake` ("quickly" no está en gramática)
 4. `the dog cat eats` (estructura incorrecta)
 5. `she eat a cake` ("eat" no está en gramática, solo "eats")
-6. `a fork cuts the meat` ("fork" no puede ser sujeto)
 
 ### 🔄 Proceso del Algoritmo
 
