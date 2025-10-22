@@ -113,26 +113,48 @@ class CYKAlgorithm:
         print("TABLA DE PROGRAMACIÓN DINÁMICA (CYK)")
         print("=" * 80)
         
-        # Mostrar tabla en formato triangular
-        for j in range(n - 1, -1, -1):
-            row = []
-            for i in range(n - j):
+        # Calcular ancho de columnas
+        col_width = 12
+        
+        # Encabezado con j
+        header = "    │"
+        for j in range(n):
+            header += f"  j={j}  │"
+        print(header)
+        
+        # Línea separadora superior
+        separator = "────┼" + ("────────┼" * n)
+        print(separator)
+        
+        # Mostrar filas desde abajo hacia arriba (formato triangular)
+        for i in range(n):
+            row = f"i={i} │"
+            for j in range(n):
                 cell = self.table[i][j]
                 if cell:
-                    cell_str = "{" + ", ".join(sorted(cell)) + "}"
+                    cell_str = "{" + ",".join(sorted(cell)) + "}"
+                    # Centrar el contenido
+                    row += f"{cell_str:^8}│"
                 else:
-                    cell_str = "∅"
-                row.append(cell_str)
+                    row += f"{'∅':^8}│"
+            print(row)
             
-            # Mostrar índices de palabras cubiertas
-            if j == 0:
-                indices = " | ".join([f"[{i}]" for i in range(n)])
-                print(f"\n{indices}")
-            
-            print(f"Nivel {j + 1}: {' | '.join(row)}")
+            # Línea separadora entre filas
+            if i < n - 1:
+                print(separator)
         
-        # Mostrar palabras
-        print(f"\nPalabras: {' | '.join(words)}")
+        # Línea separadora inferior
+        print("────┴" + ("────────┴" * n))
+        
+        # Mostrar palabras correspondientes
+        print("\nPalabras:")
+        for i, word in enumerate(words):
+            print(f"  i={i}: {word}")
+        
+        # Explicación
+        print("\nLeyenda:")
+        print("  table[i][j] = No-terminales que derivan la subcadena")
+        print("                desde posición i con longitud j+1")
         print("=" * 80)
     
     def print_parse_tree(self, tree, words, indent=0):
